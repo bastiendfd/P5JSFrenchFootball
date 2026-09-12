@@ -1,0 +1,25 @@
+name: Static validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate HTML references and JavaScript syntax
+        run: node tests/validate-static.mjs
+      - name: Verify the pinned p5.js CDN asset is reachable
+        run: >-
+          curl --fail --silent --show-error --location --head
+          https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.min.js

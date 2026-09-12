@@ -1,18 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Sketch</title>
-
-    <link rel="stylesheet" type="text/css" href="style.css">
-
-    <script src="libraries/p5.min.js"></script>
-    <script src="libraries/p5.sound.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A small interactive p5.js learning visualization inspired by French football."
+    />
+    <title>French Football Learning Demo</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.min.js"
+      integrity="sha512-265OeMthg1wxVfU0mpNMtNrz2E+OKxJ9CNbmv+oYCxNO93Lgmxq9pwqubnQqkSJgzvsqLju8Mr106tcMlwsZxg=="
+      crossorigin="anonymous"
+    ></script>
   </head>
-
   <body>
+    <main>
+      <header>
+        <h1>French Football Learning Demo</h1>
+        <p>Click the ball, then click again to send it toward the goal.</p>
+      </header>
+      <div id="sketch-container" aria-label="Interactive football pitch"></div>
+      <p class="note">Built with p5.js for learning about animation, collision detection, and user input.</p>
+    </main>
     <script src="sketch.js"></script>
   </body>
 </html>

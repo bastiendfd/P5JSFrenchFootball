@@ -3,7 +3,7 @@ let scoreLeft = 0;
 let scoreRight = 0;
 
 function setup() {
-  createCanvas(600, 400);
+  createCanvas(600, 400).parent('sketch-container');
 
   // Position initiale et taille du ballon
   ballX = width / 2;
