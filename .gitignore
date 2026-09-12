@@ -1,0 +1,11 @@
+# Editor settings
+.vscode/
+.idea/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Local server and dependency artifacts
+node_modules/
+coverage/
