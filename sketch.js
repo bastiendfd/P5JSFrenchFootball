@@ -1,4 +1,5 @@
 let ballX, ballY, ballSize, ballSpeedX, ballSpeedY;
+let ballSelected = false;
 let scoreLeft = 0;
 let scoreRight = 0;
 
@@ -11,6 +12,7 @@ function setup() {
   ballSize = 50;
   ballSpeedX = 0;
   ballSpeedY = 0;
+  ballSelected = false;
 }
 
 function draw() {
@@ -168,17 +170,23 @@ function resetBall() {
   ballY = height / 2;
   ballSpeedX = 0;
   ballSpeedY = 0;
+  ballSelected = false;
 }
 
-// Utiliser la souris pour contrôler le ballon
+// Cliquer le ballon pour le sélectionner, puis cliquer une cible pour le lancer.
 function mousePressed() {
-  let dx = mouseX - ballX;
-  let dy = mouseY - ballY;
-  let distance = dist(mouseX, mouseY, ballX, ballY);
+  if (!ballSelected) {
+    const distance = dist(mouseX, mouseY, ballX, ballY);
 
-  // Si la souris est assez proche du ballon, on ajuste la vitesse du ballon
-  if (distance < ballSize / 2) {
-    ballSpeedX = dx * 0.2;
-    ballSpeedY = dy * 0.2;
+    if (distance < ballSize / 2) {
+      ballSelected = true;
+      ballSpeedX = 0;
+      ballSpeedY = 0;
+    }
+    return;
   }
+
+  ballSpeedX = (mouseX - ballX) * 0.2;
+  ballSpeedY = (mouseY - ballY) * 0.2;
+  ballSelected = false;
 }
