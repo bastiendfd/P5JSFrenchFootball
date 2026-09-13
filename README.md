@@ -11,7 +11,7 @@ This is a static site with no build step.
    python -m http.server 8000
    ```
 2. Open [http://localhost:8000](http://localhost:8000) in a browser.
-3. Click the ball, then click elsewhere on the pitch to send it in that direction. Score by moving the ball through either goal.
+3. Click the ball to select it, then click a target point anywhere on the pitch to launch it toward that point. The second click clears the selection. Score by moving the ball through either goal.
 
 The page loads a pinned p5.js release from cdnjs with Subresource Integrity (SRI). An internet connection is required for that one library asset when using the demo as provided.
 

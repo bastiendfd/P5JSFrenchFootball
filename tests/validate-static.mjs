@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
 import path from 'node:path';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -23,5 +24,30 @@ JSON.parse(jsconfig);
 
 const syntax = spawnSync(process.execPath, ['--check', 'sketch.js'], { cwd: root, encoding: 'utf8' });
 assert(syntax.status === 0, `sketch.js syntax check failed:\n${syntax.stderr}`);
+
+const clickSandbox = {
+  createCanvas: () => ({ parent: () => {} }),
+  dist: (x1, y1, x2, y2) => Math.hypot(x2 - x1, y2 - y1),
+  width: 600,
+  height: 400,
+  mouseX: 0,
+  mouseY: 0,
+};
+vm.runInNewContext(
+  `${sketch}\nglobalThis.__clickTestApi = { setup, mousePressed, state: () => ({ ballX, ballY, ballSpeedX, ballSpeedY, ballSelected }) };`,
+  clickSandbox,
+);
+clickSandbox.__clickTestApi.setup();
+clickSandbox.mouseX = 300;
+clickSandbox.mouseY = 200;
+clickSandbox.__clickTestApi.mousePressed();
+assert(clickSandbox.__clickTestApi.state().ballSelected, 'Clicking the stationary ball must select it before targeting.');
+assert(clickSandbox.__clickTestApi.state().ballSpeedX === 0 && clickSandbox.__clickTestApi.state().ballSpeedY === 0, 'Selecting the ball must not launch it.');
+clickSandbox.mouseX = 400;
+clickSandbox.mouseY = 250;
+clickSandbox.__clickTestApi.mousePressed();
+const launched = clickSandbox.__clickTestApi.state();
+assert(!launched.ballSelected, 'Choosing a target must clear the ball selection.');
+assert(launched.ballSpeedX === 20 && launched.ballSpeedY === 10, 'The target click must set velocity toward the selected target.');
 
 console.log('Static validation passed.');
